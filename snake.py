@@ -5,6 +5,7 @@ def game_loop(window):
     # Setup inicial
     curses.curs_set(0)
     snake = [10, 15]
+    current_direction = curses.KEY_DOWN
 
     while True:
         draw_screen(window=window)
@@ -12,10 +13,15 @@ def game_loop(window):
 
         direction = get_new_direction(window=window, timeout=1000)
 
-        if direction is not None:
-            move_actor(actor=snake, direction=direction)
+        if direction is None:
+            direction = current_direction
+
+        move_actor(actor=snake, direction=direction)
+
         if actor_hit_border(actor=snake, window=window):
             return
+
+        current_direction = direction
 
 
 def draw_screen(window):
